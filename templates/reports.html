@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manual Threat Reporting</title>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#0f172a;
+            color:white;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar{
+
+            width:250px;
+            height:100vh;
+            background:#111827;
+            position:fixed;
+            top:0;
+            left:0;
+            padding:25px;
+            border-right:1px solid #1e293b;
+        }
+
+        .sidebar h2{
+
+            color:#38bdf8;
+            margin-bottom:40px;
+            text-align:center;
+        }
+
+        .sidebar a{
+
+            display:block;
+            color:white;
+            text-decoration:none;
+            padding:14px;
+            margin-bottom:15px;
+            border-radius:10px;
+            transition:0.3s;
+        }
+
+        .sidebar a:hover{
+
+            background:#1e293b;
+            color:#38bdf8;
+        }
+
+        /* MAIN */
+
+        .main{
+
+            margin-left:250px;
+            padding:40px;
+        }
+
+        .page-title{
+
+            margin-bottom:35px;
+        }
+
+        .page-title h1{
+
+            color:#38bdf8;
+            font-size:40px;
+            margin-bottom:10px;
+        }
+
+        .page-title p{
+
+            color:#cbd5e1;
+        }
+
+        /* FORM */
+
+        .report-container{
+
+            background:#1e293b;
+            padding:35px;
+            border-radius:20px;
+            margin-bottom:40px;
+            box-shadow:0 0 20px rgba(0,0,0,0.4);
+        }
+
+        .form-grid{
+
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:25px;
+        }
+
+        .input-group{
+
+            display:flex;
+            flex-direction:column;
+        }
+
+        .input-group label{
+
+            margin-bottom:10px;
+            color:#cbd5e1;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea{
+
+            background:#0f172a;
+            border:1px solid #334155;
+            color:white;
+            padding:15px;
+            border-radius:10px;
+            outline:none;
+            font-size:15px;
+        }
+
+        .input-group textarea{
+
+            resize:none;
+            height:120px;
+        }
+
+        .full-width{
+
+            grid-column:1 / 3;
+        }
+
+        /* BUTTON */
+
+        .submit-btn{
+
+            margin-top:30px;
+            background:#38bdf8;
+            color:black;
+            border:none;
+            padding:15px 35px;
+            border-radius:10px;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .submit-btn:hover{
+
+            background:#0ea5e9;
+        }
+
+        /* TABLE */
+
+        .table-container{
+
+            background:#1e293b;
+            padding:30px;
+            border-radius:20px;
+            box-shadow:0 0 20px rgba(0,0,0,0.4);
+        }
+
+        .table-container h2{
+
+            margin-bottom:25px;
+            color:#38bdf8;
+        }
+
+        table{
+
+            width:100%;
+            border-collapse:separate;
+            border-spacing:0 12px;
+        }
+
+        table th{
+
+            background:#38bdf8;
+            color:black;
+            padding:15px;
+            text-align:left;
+        }
+
+        table td{
+
+            background:#0f172a;
+            padding:15px;
+            color:#e2e8f0;
+        }
+
+        table td:first-child{
+
+            border-top-left-radius:10px;
+            border-bottom-left-radius:10px;
+        }
+
+        table td:last-child{
+
+            border-top-right-radius:10px;
+            border-bottom-right-radius:10px;
+        }
+
+        .severity-high{
+            color:#ef4444;
+            font-weight:bold;
+        }
+
+        .severity-medium{
+            color:#f59e0b;
+            font-weight:bold;
+        }
+
+        .severity-low{
+            color:#22c55e;
+            font-weight:bold;
+        }
+
+        .delete-btn{
+
+            background:#ef4444;
+            color:white;
+            text-decoration:none;
+            padding:10px 15px;
+            border-radius:8px;
+            transition:0.3s;
+        }
+
+        .delete-btn:hover{
+
+            background:#dc2626;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:900px){
+
+            .form-grid{
+                grid-template-columns:1fr;
+            }
+
+            .full-width{
+                grid-column:1;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Cyber Monitor</h2>
+
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/reports">Manual Reports</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/accuracy">Accuracy</a>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TITLE -->
+
+        <div class="page-title">
+
+            <h1>Manual Threat Reporting</h1>
+
+            <p>
+                Submit cybersecurity incidents and monitor reported threats.
+            </p>
+
+        </div>
+
+        <!-- REPORT FORM -->
+
+        <div class="report-container">
+
+            <form method="POST">
+
+                <div class="form-grid">
+
+                    <div class="input-group">
+
+                        <label>Threat Type</label>
+
+                        <select name="threat" required>
+
+                            <option value="">Select Threat</option>
+                            <option>DoS Attack</option>
+                            <option>Port Scan</option>
+                            <option>Malware</option>
+                            <option>Spam</option>
+                            <option>Suspicious Traffic</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Severity</label>
+
+                        <select name="severity" required>
+
+                            <option value="">Select Severity</option>
+                            <option>High</option>
+                            <option>Medium</option>
+                            <option>Low</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Location / IP</label>
+
+                        <input type="text"
+                        name="location"
+                        placeholder="Enter IP or Network Node"
+                        required>
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Detection Method</label>
+
+                        <select name="method" required>
+
+                            <option>Manual</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="input-group full-width">
+
+                        <label>Description</label>
+
+                        <textarea
+                        name="description"
+                        placeholder="Describe the threat activity..."
+                        required></textarea>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="submit-btn">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Submit Threat Report
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="table-container">
+
+            <h2>Reported Incidents</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Threat</th>
+                        <th>Severity</th>
+                        <th>Location</th>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Time</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% if reports %}
+
+                        {% for report in reports %}
+
+                        <tr>
+
+                            <td>{{ report.id }}</td>
+
+                            <td>{{ report.threat_type }}</td>
+
+                            <td class="
+                                {% if report.severity == 'High' %}
+                                    severity-high
+                                {% elif report.severity == 'Medium' %}
+                                    severity-medium
+                                {% else %}
+                                    severity-low
+                                {% endif %}
+                            ">
+
+                                {{ report.severity }}
+
+                            </td>
+
+                            <td>{{ report.location }}</td>
+
+                            <td>{{ report.detection_method }}</td>
+
+                            <td>{{ report.description }}</td>
+
+                            <td>{{ report.timestamp }}</td>
+
+                            <td>
+
+                                <a href="/delete/{{ report.id }}"
+                                class="delete-btn">
+
+                                    Delete
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="8"
+                            style="text-align:center;
+                            background:#0f172a;
+                            border-radius:10px;">
+
+                                No incidents reported yet.
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
